@@ -1,0 +1,81 @@
+<OFC>
+   <DTD>2</DTD>
+   <CPAGE>1252</CPAGE>
+   <ACCTSTMT>
+      <ACCTFROM>
+         <BANKID>001</BANKID>
+         <BRANCHID>3071-6</BRANCHID>
+         <ACCTID>00000071692</ACCTID>
+         <ACCTTYPE>0</ACCTTYPE>
+      </ACCTFROM>
+      <STMTRS>
+         <DTSTART>20080630</DTSTART>
+         <DTEND>20080731</DTEND>
+         <LEDGER>480.58</LEDGER>
+         <STMTTRN>
+            <TRNTYPE>1</TRNTYPE>
+            <DTPOSTED>20080711</DTPOSTED>
+            <TRNAMT>-60.57</TRNAMT>
+            <FITID>20080711160570</FITID>
+            <CHKNUM>00049434</CHKNUM>
+            <MEMO>Pagamento de Telefone</MEMO>
+         </STMTTRN>
+         <STMTTRN>
+            <TRNTYPE>1</TRNTYPE>
+            <DTPOSTED>20080714</DTPOSTED>
+            <TRNAMT>-147.36</TRNAMT>
+            <FITID>200807141147360</FITID>
+            <CHKNUM>32942835</CHKNUM>
+            <MEMO>Pagto cartão crédito</MEMO>
+         </STMTTRN>
+         <STMTTRN>
+            <TRNTYPE>1</TRNTYPE>
+            <DTPOSTED>20080714</DTPOSTED>
+            <TRNAMT>-25.78</TRNAMT>
+            <FITID>20080714125780</FITID>
+            <CHKNUM>11058928</CHKNUM>
+            <MEMO>Cobrança de Juros</MEMO>
+         </STMTTRN>
+         <STMTTRN>
+            <TRNTYPE>0</TRNTYPE>
+            <DTPOSTED>20080715</DTPOSTED>
+            <TRNAMT>1000.00</TRNAMT>
+            <FITID>2008071501000000</FITID>
+            <CHKNUM>00972676</CHKNUM>
+            <MEMO>DOC Crédito em Conta - 745 0094     7894868736 ALLAN ALBAREZ</MEMO>
+         </STMTTRN>
+         <STMTTRN>
+            <TRNTYPE>1</TRNTYPE>
+            <DTPOSTED>20080721</DTPOSTED>
+            <TRNAMT>-55.00</TRNAMT>
+            <FITID>20080721155000</FITID>
+            <CHKNUM>00028718</CHKNUM>
+            <MEMO>Mesada</MEMO>
+         </STMTTRN>
+         <STMTTRN>
+            <TRNTYPE>1</TRNTYPE>
+            <DTPOSTED>20080724</DTPOSTED>
+            <TRNAMT>-9.00</TRNAMT>
+            <FITID>2008072419000</FITID>
+            <CHKNUM>00080724</CHKNUM>
+            <MEMO>Tarifa Pacote de Serviços - Tarifa referente a 24/07/2008</MEMO>
+         </STMTTRN>
+         <STMTTRN>
+            <TRNTYPE>1</TRNTYPE>
+            <DTPOSTED>20080725</DTPOSTED>
+            <TRNAMT>-2.50</TRNAMT>
+            <FITID>2008072512500</FITID>
+            <CHKNUM>00080602</CHKNUM>
+            <MEMO>Tarifa SMS - Mês Anterior - Tarifa referente a 02/06/2008</MEMO>
+         </STMTTRN>
+         <STMTTRN>
+            <TRNTYPE>1</TRNTYPE>
+            <DTPOSTED>20080731</DTPOSTED>
+            <TRNAMT>-1.19</TRNAMT>
+            <FITID>2008073111190</FITID>
+            <CHKNUM>91100701</CHKNUM>
+            <MEMO>Cobrança de I.O.F.</MEMO>
+         </STMTTRN>
+      </STMTRS>
+   </ACCTSTMT>
+</OFC>

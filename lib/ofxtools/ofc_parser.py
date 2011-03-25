@@ -54,6 +54,7 @@ class OfcParser:
         """Parse a string argument and return a tree structure representing
         the parsed document."""
         ofc = self.remove_inline_closing_tags(ofc)
+        ofc = self._translate_chknum_to_checknum(ofc)
         try:
           return self.parser.parseString(ofc).asDict()
         except ParseException:
@@ -82,9 +83,16 @@ class OfcParser:
         expression = r'(<%s>)[^\w+]'
         replacement = r'<%s>0\n'
         ofc = re.sub(expression % 'FITID', replacement % 'FITID' , ofc)
-        filled_ofc = re.sub(expression % 'CHKNUM', replacement % 'CHKNUM' , ofc)
+        filled_ofc = re.sub(expression % 'CHECKNUM', replacement % 'CHECKNUM' , ofc)
 
         return filled_ofc
+
+    def _translate_chknum_to_checknum(self, ofc):
+        """
+        Some banks put an CHKNUM instead of CHECKNUM. this method translates
+        CHKNUM to CHECKNUM in order to parse this information correctly
+        """
+        return re.sub('CHKNUM', 'CHECKNUM', ofc)
 
     def _inject_tags(self, ofc):
         tags ="<OFC>\n<ACCTSTMT>\n<ACCTFROM>\n<BANKID>0\n<ACCTID>0\n<ACCTTYPE>0\n</ACCTFROM>\n"

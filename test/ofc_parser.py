@@ -12,6 +12,7 @@ import unittest
 FIXTURES_PATH = join(realpath(dirname(__file__)), 'fixtures')
 bad_ofc_path = join(FIXTURES_PATH, 'bad.ofc')
 no_bankinfo_ofc_path = join(FIXTURES_PATH, 'nobankinfo_and_trnrs.ofc')
+ofc_with_chknum_path = join(FIXTURES_PATH, 'ofc_with_chknum.ofc')
 
 def assert_not_raises(function, param, exception):
     try:
@@ -31,6 +32,13 @@ class OFCParserTestCase(unittest.TestCase):
     def test_parsing_ofc_without_bank_info_not_raise_Exception(self):
         self.ofc = open(no_bankinfo_ofc_path, 'r').read()
         assert_not_raises(self.parser.parse, self.ofc, Exception)
+
+    def test_chknum_to_checknum_translation(self):
+        self.ofc = open(ofc_with_chknum_path, 'r').read()
+        #ensure that the CHECKNUM was translated
+        self.assertTrue('CHECKNUM' in str(self.parser._translate_chknum_to_checknum(self.ofc)))
+        self.assertFalse('CHKNUM' in str(self.parser._translate_chknum_to_checknum(self.ofc)))
+
 
 
 if __name__ == '__main__':
