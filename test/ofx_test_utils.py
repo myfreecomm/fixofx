@@ -17,11 +17,15 @@ import os
 fixtures = os.path.join(os.path.dirname(__file__) or '.', "fixtures")
 
 def get_checking_stmt():
-    return open(os.path.join(fixtures, "checking.ofx"), 'rU').read()
+    return _read_file("checking.ofx")
     
 def get_savings_stmt():
-    return open(os.path.join(fixtures, "savings.ofx"), 'rU').read()
+    return _read_file("savings.ofx")
 
 def get_creditcard_stmt():
-    return open(os.path.join(fixtures, "creditcard.ofx"), 'rU').read()
+    return _read_file("creditcard.ofx")
+
+def _read_file(filename):
+    return open(os.path.join(fixtures, filename), 'rU').read()
+
 
