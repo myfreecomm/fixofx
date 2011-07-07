@@ -22,6 +22,7 @@ import re
 import sys
 from pyparsing import alphanums, alphas, CharsNotIn, Dict, Forward, Group, \
 Literal, OneOrMore, Optional, SkipTo, White, Word, ZeroOrMore
+from ofxtools.util import strip_empty_tags
 
 def _ofxStartDebugAction( instring, loc, expr ):
     sys.stderr.write("Match %s at loc %s (%d,%d)" %
@@ -72,17 +73,12 @@ class Parser:
     def parse(self, ofx):
         """Parse a string argument and return a tree structure representing
         the parsed document."""
-        ofx = self.strip_empty_tags(ofx)
+        ofx = strip_empty_tags(ofx)
         ofx = self.strip_close_tags(ofx)
         ofx = self.strip_blank_dtasof(ofx)
         ofx = self.strip_junk_ascii(ofx)
         ofx = self.fix_unknown_account_type(ofx)
         return self.parser.parseString(ofx).asDict()
-
-    def strip_empty_tags(self, ofx):
-        """Strips open/close tags that have no content."""
-        strip_search = '<(?P<tag>[^>]+)>\s*</(?P=tag)>'
-        return re.sub(strip_search, '', ofx)
 
     def strip_close_tags(self, ofx):
         """Strips close tags on non-aggregate nodes.  Close tags seem to be
