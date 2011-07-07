@@ -14,14 +14,18 @@ bad_ofc_path = join(FIXTURES_PATH, 'bad.ofc')
 no_bankinfo_ofc_path = join(FIXTURES_PATH, 'nobankinfo_and_trnrs.ofc')
 ofc_with_chknum_path = join(FIXTURES_PATH, 'ofc_with_chknum.ofc')
 
+ofc_with_empty_tag = join(FIXTURES_PATH, 'evil_mailrs.ofx')# its an OFC by inside
+
 def assert_not_raises(function, param, exception):
     try:
       function(param)
     except exception:
       raise AssertionError, "Exception %s raised" %exception
 
+read_file = lambda f: open(f, 'rU').read()
 
 class OFCParserTestCase(unittest.TestCase):
+
     def setUp(self):
         self.ofc = open(bad_ofc_path, 'r').read()
         self.parser = OfcParser()
@@ -38,6 +42,10 @@ class OFCParserTestCase(unittest.TestCase):
         #ensure that the CHECKNUM was translated
         self.assertTrue('CHECKNUM' in str(self.parser._translate_chknum_to_checknum(self.ofc)))
         self.assertFalse('CHKNUM' in str(self.parser._translate_chknum_to_checknum(self.ofc)))
+
+    def test_not_crashes_when_an_OFC_has_empty_tags(self):
+        ofc = read_file(ofc_with_empty_tag)
+        assert_not_raises(self.parser.parse, ofc, ParseException)
 
 
 

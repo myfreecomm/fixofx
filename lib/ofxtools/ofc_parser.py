@@ -54,6 +54,7 @@ class OfcParser:
         """Parse a string argument and return a tree structure representing
         the parsed document."""
         ofc = self.remove_inline_closing_tags(ofc)
+        ofc = self.strip_empty_tags(ofc)
         ofc = self._translate_chknum_to_checknum(ofc)
         try:
           return self.parser.parseString(ofc).asDict()
@@ -93,6 +94,11 @@ class OfcParser:
         CHKNUM to CHECKNUM in order to parse this information correctly
         """
         return re.sub('CHKNUM', 'CHECKNUM', ofc)
+
+    def strip_empty_tags(self, ofc):
+        """Strips open/close tags that have no content."""
+        strip_search = '<(?P<tag>[^>]+)>\s*</(?P=tag)>'
+        return re.sub(strip_search, '', ofc)
 
     def _inject_tags(self, ofc):
         tags ="<OFC>\n<ACCTSTMT>\n<ACCTFROM>\n<BANKID>0\n<ACCTID>0\n<ACCTTYPE>0\n</ACCTFROM>\n"
