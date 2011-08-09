@@ -42,6 +42,13 @@ class OFCParserTestCase(unittest.TestCase):
         ofc = read_file('empty_tags.ofx')#it is an ofc by inside
         assert_not_raises(self.parser.parse, ofc, ParseException)
 
+    def test_not_exceed_max_recursion_limit(self):
+        """
+          For some reason, this file exceeds the normal recursion_limit
+          i've solved this setting the max recursion depth.
+        """
+        ofc = read_file('recursion_depth_exceeded.ofx')
+        assert_not_raises(self.parser.parse, ofc, RuntimeError)
 
 
 if __name__ == '__main__':

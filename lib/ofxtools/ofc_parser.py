@@ -56,6 +56,10 @@ class OfcParser:
         ofc = self.remove_inline_closing_tags(ofc)
         ofc = ofxtools.util.strip_empty_tags(ofc)
         ofc = self._translate_chknum_to_checknum(ofc)
+        # if you don't have a good stomach, skip this part
+        # XXX:needs better solution
+        import sys
+        sys.setrecursionlimit(5000)
         try:
           return self.parser.parseString(ofc).asDict()
         except ParseException:
