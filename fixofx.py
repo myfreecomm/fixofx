@@ -57,10 +57,12 @@ except ImportError:
     pass
 
 
-def convert(text, filetype, verbose=False, fid="UNKNOWN", org="UNKNOWN",
+def convert(filecontent, filetype, verbose=False, fid="UNKNOWN", org="UNKNOWN",
             bankid="UNKNOWN", accttype="UNKNOWN", acctid="UNKNOWN",
             balance="UNKNOWN", curdef=None, lang="ENG", dayfirst=False,
             debug=False):
+
+    text = os.linesep.join(s for s in filecontent.splitlines() if s)
 
     # This finishes a verbosity message started by the caller, where the
     # caller explains the source command-line option and this explains the
