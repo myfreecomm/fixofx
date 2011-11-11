@@ -53,6 +53,7 @@ class OfcParser:
     def parse(self, ofc):
         """Parse a string argument and return a tree structure representing
         the parsed document."""
+        ofc = self.add_zero_to_empty_ledger_tag(ofc)
         ofc = self.remove_inline_closing_tags(ofc)
         ofc = ofxtools.util.strip_empty_tags(ofc)
         ofc = self._translate_chknum_to_checknum(ofc)
@@ -65,6 +66,12 @@ class OfcParser:
         except ParseException:
           fixed_ofc = self.fix_ofc(ofc)
           return self.parser.parseString(fixed_ofc).asDict()
+
+    def add_zero_to_empty_ledger_tag(self, ofc):
+        """
+        Fix an OFC, by adding zero to LEDGER blank tag
+        """
+        return re.compile(r'<LEDGER>(\D*\n)', re.UNICODE).sub(r'<LEDGER>0\1', ofc)
 
     def remove_inline_closing_tags(self, ofc):
         """

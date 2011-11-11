@@ -28,6 +28,10 @@ class OFCParserTestCase(unittest.TestCase):
     def test_parsing_bad_ofc_should_not_raise_exception(self):
         assert_not_raises(self.parser.parse, self.ofc, ParseException)
 
+    def test_parsing_ofc_with_blank_ledger_tag_not_raise_Exception(self):
+        self.ofc = read_file('invalid_blank_tag_ledger.ofc')
+        assert_not_raises(self.parser.parse, self.ofc, Exception)
+
     def test_parsing_ofc_without_bank_info_not_raise_Exception(self):
         self.ofc = read_file('nobankinfo_and_trnrs.ofc')
         assert_not_raises(self.parser.parse, self.ofc, Exception)
