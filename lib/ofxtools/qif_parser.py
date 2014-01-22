@@ -113,6 +113,7 @@ class QifParser:
         self.parser = Group(ZeroOrMore(White()).suppress() +
                             ZeroOrMore(acctlist).suppress() +
                             OneOrMore(ccardtxns | cashtxns | banktxns | liabilitytxns | invsttxns) +
+                            ZeroOrMore(category | classlist).suppress() +
                             ZeroOrMore(White()).suppress()
                             ).setResultsName("QifStatement")
 

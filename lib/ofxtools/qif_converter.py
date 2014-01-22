@@ -370,12 +370,13 @@ class QifConverter:
             txn["Type"] = "CHECK"
 
     def _clean_txn_type(self, txn):
-        txn_type    = "UNKNOWN"
-        txn_amount  = txn.get("Amount", "UNKNOWN")
-        txn_payee   = txn.get("Payee",  "UNKNOWN")
-        txn_memo    = txn.get("Memo",   "UNKNOWN")
-        txn_number  = txn.get("Number", "UNKNOWN")
-        txn_sign    = self._txn_sign(txn_amount)
+        txn_type     = "UNKNOWN"
+        txn_amount   = txn.get("Amount", "UNKNOWN")
+        txn_payee    = txn.get("Payee",  "UNKNOWN")
+        txn_memo     = txn.get("Memo",   "UNKNOWN")
+        txn_category = txn.get("Category", "UNKNOWN")
+        txn_number   = txn.get("Number", "UNKNOWN")
+        txn_sign     = self._txn_sign(txn_amount)
 
         # Try to figure out the transaction type from the Payee or
         # Memo field.
@@ -401,12 +402,13 @@ class QifConverter:
                 break
 
     def _clean_txn_payee(self, txn):
-        txn_payee   = txn.get("Payee",  "UNKNOWN")
-        txn_memo    = txn.get("Memo",   "UNKNOWN")
-        txn_number  = txn.get("Number", "UNKNOWN")
-        txn_type    = txn.get("Type",   "UNKNOWN")
-        txn_amount  = txn.get("Amount", "UNKNOWN")
-        txn_sign    = self._txn_sign(txn_amount)
+        txn_payee    = txn.get("Payee",  "UNKNOWN")
+        txn_memo     = txn.get("Memo",   "UNKNOWN")
+        txn_category = txn.get("Category", "UNKNOWN")
+        txn_number   = txn.get("Number", "UNKNOWN")
+        txn_type     = txn.get("Type",   "UNKNOWN")
+        txn_amount   = txn.get("Amount", "UNKNOWN")
+        txn_sign     = self._txn_sign(txn_amount)
 
         # Try to fill in the payee field with some meaningful value.
         if txn_payee == "UNKNOWN":
@@ -435,6 +437,9 @@ class QifConverter:
 
             elif txn_memo != "UNKNOWN":
                 txn["Payee"] = txn_memo
+
+            elif txn_category != "UNKNOWN":
+                txn["Payee"] = txn_category
 
             # Down here, we have no payee, no memo, no check number,
             # and no type.  Who knows what this stuff is.
@@ -617,6 +622,9 @@ class QifConverter:
 
         if self._check_field("Memo", txn):
             fields.append(MEMO(sax.escape(sax.unescape(txn["Memo"].strip()))))
+
+        if self._check_field("Category", txn):
+            fields.append(CATEGORY(sax.escape(sax.unescape(txn["Category"].strip()))))
 
         return STMTTRN(*fields)
 

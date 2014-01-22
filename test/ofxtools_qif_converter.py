@@ -23,9 +23,6 @@ from pyparsing import ParseException
 from time import localtime, strftime
 
 class QifConverterTests(unittest.TestCase):
-    def setUp(self):
-        pass
-    
     def test_bank_stmttype(self):
         qiftext = textwrap.dedent('''\
         !Type:Bank
@@ -324,6 +321,5 @@ class QifConverterTests(unittest.TestCase):
         txn = converter.txns_by_date["20070125"][0]
         self.assertEqual(txn.get("Type"), "CHECK")
     
-
 if __name__ == '__main__':
     unittest.main()
