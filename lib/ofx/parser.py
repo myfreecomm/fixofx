@@ -91,7 +91,7 @@ class Parser:
     def strip_blank_dtasof(self, ofx):
         """Strips empty dtasof tags from wells fargo/wachovia downloads.  Again, it would
         be better to just rewrite the parser, but for now this is a workaround."""
-        blank_search = '<(DTASOF|BALAMT|BANKID|CATEGORY|NAME)>[\n\r]+'
+        blank_search = '<(DTASOF|BALAMT|BANKID|CATEGORY|NAME|MEMO)>[\n\r]+'
         return re.sub(blank_search, '', ofx)
 
     def strip_junk_ascii(self, ofx):
