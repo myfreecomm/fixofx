@@ -27,22 +27,38 @@ class ParserTests(unittest.TestCase):
         parser = ofx.Parser()
         checking_stmt = ofx_test_utils.get_checking_stmt()
         creditcard_stmt = ofx_test_utils.get_creditcard_stmt()
+        blank_memo_stmt = ofx_test_utils.get_blank_memo_stmt()
         self.checkparse = parser.parse(checking_stmt)
         self.creditcardparse = parser.parse(creditcard_stmt)
+        self.blank_memoparse = parser.parse(blank_memo_stmt)
     
     def test_successful_parse(self):
         """Test parsing a valid OFX document containing a 'success' message."""
         self.assertEqual("SUCCESS",
             self.checkparse["body"]["OFX"]["SIGNONMSGSRSV1"]["SONRS"]["STATUS"]["MESSAGE"])
     
+    def test_successfull_parse_for_blank_memo(self):
+        """Test parsing a valid OFX document with blank memo containing a 'success' message."""
+        self.assertEqual("INFO",
+            self.blank_memoparse["body"]["OFX"]["SIGNONMSGSRSV1"]["SONRS"]["STATUS"]["SEVERITY"])
+
     def test_body_read(self):
         """Test reading a value from deep in the body of the OFX document."""
         self.assertEqual("-5128.16",
             self.creditcardparse["body"]["OFX"]["CREDITCARDMSGSRSV1"]["CCSTMTTRNRS"]["CCSTMTRS"]["LEDGERBAL"]["BALAMT"])
     
+    def test_body_read_for_blank_memo(self):
+        """Test reading a value from deep in the body of the OFX document."""
+        self.assertEqual("-23.26",
+            self.blank_memoparse["body"]["OFX"]["BANKMSGSRSV1"]["STMTTRNRS"]["STMTRS"]["BANKTRANLIST"]["STMTTRN"]["TRNAMT"])
+    
     def test_header_read(self):
         """Test reading a header from the OFX document."""
         self.assertEqual("100", self.checkparse["header"]["OFXHEADER"])
+    
+    def test_header_read_for_blank_memo(self):
+        """Test reading a header from the OFX document."""
+        self.assertEqual("100", self.blank_memoparse["header"]["OFXHEADER"])
     
 
 if __name__ == '__main__':
