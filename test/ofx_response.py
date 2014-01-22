@@ -56,7 +56,7 @@ class ResponseTests(unittest.TestCase):
         try:
             response_elem = ElementTree.fromstring(self.response_text)
             self.fail("Expected parse exception but did not get one.")
-        except ExpatError:
+        except:
             pass
 
         # Then see if we can get a real parse success, with no ExpatError.
