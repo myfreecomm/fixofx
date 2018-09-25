@@ -26,12 +26,12 @@ class ParserTests(unittest.TestCase):
     def setUp(self):
         parser = ofx.Parser()
         checking_stmt = ofx_test_utils.get_checking_stmt()
-        creditcard_stmt = ofx_test_utils.get_creditcard_stmt()
-        blank_memo_stmt = ofx_test_utils.get_blank_memo_stmt()
-        tag_with_line_break_stmt = ofx_test_utils.get_tag_with_line_break_stmt()
-
         self.checkparse = parser.parse(checking_stmt)
+
+        creditcard_stmt = ofx_test_utils.get_creditcard_stmt()
         self.creditcardparse = parser.parse(creditcard_stmt)
+
+        blank_memo_stmt = ofx_test_utils.get_blank_memo_stmt()
         self.blank_memoparse = parser.parse(blank_memo_stmt)
 
     def test_successful_parse(self):
@@ -79,10 +79,9 @@ class ParserTests(unittest.TestCase):
         parser = ofx.Parser()
         stmt =  ofx_test_utils.get_tag_with_line_break_stmt()
         result = parser.parse(stmt)
-        subject = result["body"]["OFX"]["BANKMSGSRSV1"]["STMTTRNRS"]
-        ["STMTRS"]["BANKTRANLIST"]["STMTTRN"]["OBSV"]
+        subject = result["body"]["OFX"]["BANKMSGSRSV1"]["STMTTRNRS"]["STMTRS"]["BANKTRANLIST"]["STMTTRN"]
 
-        self.assertEqual(subject, "crazy string with \n the same in the toddynho")
+        self.assertEqual(False, "OBSV" in subject)
 
 
 if __name__ == '__main__':

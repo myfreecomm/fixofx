@@ -48,7 +48,20 @@ NEWFILEUID:NONE
             <CHECKNUM>2582963</CHECKNUM>
             <REFNUM>2582963</REFNUM>
             <MEMO>DÉB.TRANSF.CONTAS DIF.TITULARIDADE</MEMO>
-            <OBSV>crazy string
+            <OBSV>crazy string 1
+              the same in the toddynho
+              ever
+            </OBSV>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>DEBIT</TRNTYPE>
+            <DTPOSTED>20180903120000[-3:BRT]</DTPOSTED>
+            <TRNAMT>-150.00</TRNAMT>
+            <FITID>20180903150001</FITID>
+            <CHECKNUM>2582963</CHECKNUM>
+            <REFNUM>2582963</REFNUM>
+            <MEMO>DÉB.TRANSF.CONTAS DIF.TITULARIDADE</MEMO>
+            <OBSV>crazy string 2
               the same in the toddynho</OBSV>
           </STMTTRN>
         </BANKTRANLIST>

@@ -74,15 +74,11 @@ class Parser:
         """Parse a string argument and return a tree structure representing
         the parsed document."""
         ofx = strip_empty_tags(ofx)
-        print 0
         ofx = self.strip_close_tags(ofx)
-        print 1
         ofx = self.strip_blank_dtasof(ofx)
-        print 2
         ofx = self.strip_junk_ascii(ofx)
-        print 3
         ofx = self.fix_unknown_account_type(ofx)
-        print 4
+        ofx = self.strip_obsv_tag(ofx)
         return self.parser.parseString(ofx).asDict()
 
     def strip_close_tags(self, ofx):
@@ -109,4 +105,9 @@ class Parser:
         """Sets the content of <ACCTTYPE> nodes without content to be UNKNOWN so that the
         parser is able to parse it. This isn't really the best solution, but it's a decent workaround."""
         return re.sub('<ACCTTYPE>(?P<contentend>[<\n\r])', '<ACCTTYPE>UNKNOWN\g<contentend>', ofx)
+
+    def strip_obsv_tag(self, ofx):
+        """Strips OBSV tags. This is a workaround."""
+        strip_search = '<OBSV>.*?</OBSV>'
+        return re.sub(strip_search, '', ofx, flags=re.DOTALL)
 
