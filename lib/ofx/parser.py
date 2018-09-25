@@ -74,10 +74,15 @@ class Parser:
         """Parse a string argument and return a tree structure representing
         the parsed document."""
         ofx = strip_empty_tags(ofx)
+        print 0
         ofx = self.strip_close_tags(ofx)
+        print 1
         ofx = self.strip_blank_dtasof(ofx)
+        print 2
         ofx = self.strip_junk_ascii(ofx)
+        print 3
         ofx = self.fix_unknown_account_type(ofx)
+        print 4
         return self.parser.parseString(ofx).asDict()
 
     def strip_close_tags(self, ofx):

@@ -28,6 +28,8 @@ class ParserTests(unittest.TestCase):
         checking_stmt = ofx_test_utils.get_checking_stmt()
         creditcard_stmt = ofx_test_utils.get_creditcard_stmt()
         blank_memo_stmt = ofx_test_utils.get_blank_memo_stmt()
+        tag_with_line_break_stmt = ofx_test_utils.get_tag_with_line_break_stmt()
+
         self.checkparse = parser.parse(checking_stmt)
         self.creditcardparse = parser.parse(creditcard_stmt)
         self.blank_memoparse = parser.parse(blank_memo_stmt)
@@ -71,6 +73,16 @@ class ParserTests(unittest.TestCase):
         self.assertEqual(bank_acc_from['ACCTID'], '/')
         self.assertEqual(bank_acc_from['ACCTTYPE'], 'SAVINGS')
         self.assertEqual(['ACCTID', 'ACCTTYPE', 'BANKID'], bank_acc_from.keys())
+
+    def test_parse_tag_with_line_break(self):
+        """Test reading a header from the OFX document."""
+        parser = ofx.Parser()
+        stmt =  ofx_test_utils.get_tag_with_line_break_stmt()
+        result = parser.parse(stmt)
+        subject = result["body"]["OFX"]["BANKMSGSRSV1"]["STMTTRNRS"]
+        ["STMTRS"]["BANKTRANLIST"]["STMTTRN"]["OBSV"]
+
+        self.assertEqual(subject, "crazy string with \n the same in the toddynho")
 
 
 if __name__ == '__main__':
