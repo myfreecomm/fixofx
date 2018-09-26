@@ -31,6 +31,9 @@ def get_creditcard_stmt():
 def get_blank_memo_stmt():
     return _read_file("blank_memo.ofx")
 
+def get_tag_with_line_break_stmt():
+    return _read_file("tag_with_line_break.ofx")
+
 def _read_file(filename):
     return open(os.path.join(fixtures, filename), 'rU').read()
 
