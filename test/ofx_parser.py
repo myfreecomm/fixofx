@@ -79,9 +79,11 @@ class ParserTests(unittest.TestCase):
         parser = ofx.Parser()
         stmt =  ofx_test_utils.get_tag_with_line_break_stmt()
         result = parser.parse(stmt)
-        subject = result["body"]["OFX"]["BANKMSGSRSV1"]["STMTTRNRS"]["STMTRS"]["BANKTRANLIST"]["STMTTRN"]
+        subject = result["body"]["OFX"]["BANKMSGSRSV1"]["STMTTRNRS"]["STMTRS"] \
+            ["BANKTRANLIST"]
 
-        self.assertEqual(False, "OBSV" in subject)
+        transactions_count = len([e[0] for e in subject if e[0] == 'STMTTRN'])
+        self.assertEqual(109, transactions_count)
 
 
 if __name__ == '__main__':

@@ -20,6 +20,7 @@
 
 import re
 import sys
+from StringIO import StringIO
 from pyparsing import alphanums, alphas, CharsNotIn, Dict, Forward, Group, \
 Literal, OneOrMore, Optional, SkipTo, White, Word, ZeroOrMore
 from ofxtools.util import strip_empty_tags
@@ -74,11 +75,11 @@ class Parser:
         """Parse a string argument and return a tree structure representing
         the parsed document."""
         ofx = strip_empty_tags(ofx)
+        ofx = self.fix_multiline_tags(ofx)
         ofx = self.strip_close_tags(ofx)
         ofx = self.strip_blank_dtasof(ofx)
         ofx = self.strip_junk_ascii(ofx)
         ofx = self.fix_unknown_account_type(ofx)
-        ofx = self.strip_obsv_tag(ofx)
         return self.parser.parseString(ofx).asDict()
 
     def strip_close_tags(self, ofx):
@@ -106,8 +107,24 @@ class Parser:
         parser is able to parse it. This isn't really the best solution, but it's a decent workaround."""
         return re.sub('<ACCTTYPE>(?P<contentend>[<\n\r])', '<ACCTTYPE>UNKNOWN\g<contentend>', ofx)
 
-    def strip_obsv_tag(self, ofx):
+    def fix_multiline_tags(self, ofx):
         """Strips OBSV tags. This is a workaround."""
-        strip_search = '<OBSV>.*?</OBSV>'
-        return re.sub(strip_search, '', ofx, flags=re.DOTALL)
+        buf = StringIO(ofx)
+        out = StringIO()
+        tag = ''
+
+        for line in buf:
+          if re.match('^\s*<[^/]', line):
+            tagClose = line.index('>') + 1
+            tag = line[:tagClose]
+          else:
+            if tag:
+              strip_search = '^\s*(?!\s*<)'
+              if line.strip() != '' and re.match(strip_search, line):
+                line = tag + line
+
+          out.write(line)
+
+        return out.getvalue()
+
 
