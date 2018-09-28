@@ -87,25 +87,25 @@ class Parser:
         valid OFX/1.x, but they screw up our parser definition and are optional.
         This allows me to keep using the same parser without having to re-write
         it from scratch just yet."""
-        strip_search = '<(?P<tag>[^>]+)>\s*(?P<value>[^<\n\r]+)(?:\s*</(?P=tag)>)?(?P<lineend>[\n\r]*)'
+        strip_search = r'<(?P<tag>[^>]+)>\s*(?P<value>[^<\n\r]+)(?:\s*</(?P=tag)>)?(?P<lineend>[\n\r]*)'
         return re.sub(strip_search, '<\g<tag>>\g<value>\g<lineend>', ofx)
 
     def strip_blank_dtasof(self, ofx):
         """Strips empty dtasof tags from wells fargo/wachovia downloads.  Again, it would
         be better to just rewrite the parser, but for now this is a workaround."""
-        blank_search = '<(DTASOF|BALAMT|BANKID|CATEGORY|NAME|MEMO)>[\n\r]+'
+        blank_search = r'<(DTASOF|BALAMT|BANKID|CATEGORY|NAME|MEMO)>[\n\r]+'
         return re.sub(blank_search, '', ofx)
 
     def strip_junk_ascii(self, ofx):
         """Strips high ascii gibberish characters from Schwab statements. They seem to
         contains strings of EF BF BD EF BF BD 0A 08 EF BF BD 64 EF BF BD in the <NAME> field,
         and the newline is screwing up the parser."""
-        return re.sub('[\xBD-\xFF\x64\x0A\x08]{4,}', '', ofx)
+        return re.sub(r'[\xBD-\xFF\x64\x0A\x08]{4,}', '', ofx)
 
     def fix_unknown_account_type(self, ofx):
         """Sets the content of <ACCTTYPE> nodes without content to be UNKNOWN so that the
         parser is able to parse it. This isn't really the best solution, but it's a decent workaround."""
-        return re.sub('<ACCTTYPE>(?P<contentend>[<\n\r])', '<ACCTTYPE>UNKNOWN\g<contentend>', ofx)
+        return re.sub(r'<ACCTTYPE>(?P<contentend>[<\n\r])', '<ACCTTYPE>UNKNOWN\g<contentend>', ofx)
 
     def fix_multiline_tags(self, ofx):
         """Strips OBSV tags. This is a workaround."""
@@ -114,13 +114,13 @@ class Parser:
         tag = ''
 
         for line in buf:
-          if re.match('^\s*<[^/]', line):
+          if re.match(r'^\s*<[^/]', line):
             tagClose = line.index('>') + 1
             tag = line[:tagClose]
           else:
             if tag:
-              strip_search = '^\s*(?!\s*<)'
-              if line.strip() != '' and re.match(strip_search, line):
+              strip_search = r'^\s*(?!\s*<)'
+              if line.strip() and re.match(strip_search, line):
                 line = tag + line
 
           out.write(line)
